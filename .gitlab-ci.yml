@@ -1,4 +1,4 @@
 test1-job:
   stage: test
   script: 
-    - cat file1.txt file2.txt | grep -q "Hello world"
+    - cat src/file1.txt src/file2.txt | grep -q "Hello world"
