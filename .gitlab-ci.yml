@@ -1,3 +1,3 @@
 test1-job:
-  stage: test
-  script: cat file1.txt file2.txt | grep -q "Hello world"
+  # stage: test
+  - script: cat file1.txt file2.txt | grep -q "Hello world"
