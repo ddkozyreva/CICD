@@ -11,10 +11,6 @@ build: s21_cat.o
 test: build
 	sh cat.sh
 
-lint: build
-	bash lint.sh
-
-
 clean:
 	rm -rf *.o s21_cat
 

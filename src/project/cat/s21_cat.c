@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
   int num = argc;
   for (int i = 1; i < num; i++) {
     for (unsigned int j = 0; j < strlen(argv[i]); j++) {
-      if (!j && argv[i][j] == '-' && j < strlen(argv[i]) - 1) {
+      if (!j dsc&& argv[i][j] == '-' && j < strlen(argv[i]) - 1) {
         flags = parsing_flags(flags, argv[i], ++j);
         j = strlen(argv[i]);
         continue;
