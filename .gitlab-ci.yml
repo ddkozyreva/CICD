@@ -1,4 +1,19 @@
-test1-job:
+build-job1:
+  stage: build
+  script:
+    - cd src/project/cat/ && make build
+
+build-job2:
+  stage: build
+  script:
+    - cd src/project/grep/ && make build
+
+test-job1:
   stage: test
   script: 
-    - cat src/file1.txt src/file2.txt | grep -q "Hello world"
+    - cd src/project/cat/ && make test
+
+test-job2:
+  stage: test
+  script: 
+    - cd src/project/grep/ && make test
