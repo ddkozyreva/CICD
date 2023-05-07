@@ -20,10 +20,10 @@ do
     DIFF_RES="$(diff -s s21_grep.txt grep.txt)"
     if [ "$DIFF_RES" == "Files s21_grep.txt and grep.txt are identical" ]
     then
-        (( COUNTER_SUCCESS++ ))
+        (( $COUNTER_SUCCESS++ ))
     else
         echo "$TEST1" >> log.txt
-        (( COUNTER_FAIL++ ))
+        (( $COUNTER_FAIL++ ))
     fi
     rm s21_grep*.txt grep*.txt
 done
@@ -41,10 +41,10 @@ do
             DIFF_RES="$(diff -s s21_grep.txt grep.txt)"
             if [ "$DIFF_RES" == "Files s21_grep.txt and grep.txt are identical" ]
             then
-                (( COUNTER_SUCCESS++ ))
+                (( $COUNTER_SUCCESS++ ))
             else
                 echo "$TEST1" >> log.txt
-                (( COUNTER_FAIL++ ))
+                (( $COUNTER_FAIL++ ))
             fi
             rm s21_grep*.txt grep*.txt
         done
