@@ -34,12 +34,10 @@ int main(int argc, char *argv[]) {
 }
 struct flags parsing_flags(struct flags flags, char *word, unsigned int k) {
   int l = strlen(word);
-  for (int j = k; j<l && !flags.uncorrect; j++) {
+  for (int j = k; j < l && !flags.uncorrect; j++) {
     if (word[j] == 'b') {
       flags.b = 1;
       continue;
-
-      
     }
     if (word[j] == 'e') {
       flags.e = 1;
