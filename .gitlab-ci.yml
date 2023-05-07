@@ -6,7 +6,7 @@ build-cat:
   artifacts:
     name: "cat_build"
     paths: 
-      - binaries/cat/
+      - src/project/cat/binaries/cat/
     expire_in: 30 days
 
 build-grep:
