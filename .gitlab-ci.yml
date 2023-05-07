@@ -11,10 +11,9 @@ build:
     - cd src/project/cat/ && make build && cd ../grep/ && make build
     - pwd
   artifacts:
-    # name: "cat_build"
     paths: 
       - src/project/cat/s21_cat
-      - src/project/cat/s21_grep
+      - src/project/grep/s21_grep
     expire_in: 30 days
 
 # build-grep:
@@ -28,35 +27,37 @@ build:
 #     expire_in: 30 days
 
 
-style-cat:
+style:
   stage: test_style
   needs: ["build"]
   script: 
-    - cd src/project/cat/ && clang-format -n -Werror *.c
+    - cd src/project/cat/ && clang-format -n -Werror *.c && 
+    - cd ../grep/ && clang-format -n -Werror *.c
   # allow_failure: false
   when: on_success
 
-style-grep:
-  stage: test_style
-  needs: ["build"]
-  script: 
-    - cd src/project/grep/ && clang-format -n -Werror *.c
-  # allow_failure: false
-  when: on_success
+# style-grep:
+#   stage: test_style
+#   needs: ["build"]
+#   script: 
+#     - cd src/project/grep/ && clang-format -n -Werror *.c
+#   # allow_failure: false
+#   when: on_success
 
 
-test-cat:
+test:
   stage: integration_test
-  needs: ["build", "style-cat", "style-grep"]
+  needs: ["build", "style"]
   script: 
-    - cd src/project/cat/ && make test
-  # allow_failure: false
-  when: on_success
-
-test-grep:
-  stage: integration_test
-  needs: ["build", "style-cat", "style-grep"]
-  script: 
+    - cd src/project/cat/ && make test &&
     - cd src/project/grep/ && make test
   # allow_failure: false
   when: on_success
+
+# test-grep:
+#   stage: integration_test
+#   needs: ["build", "style-cat", "style-grep"]
+#   script: 
+#     - cd src/project/grep/ && make test
+#   # allow_failure: false
+#   when: on_success
