@@ -20,8 +20,9 @@ build-grep:
 
 style-cat:
   stage: test
+  when: on_success
   script: 
-    - cd src/project/cat/ && clang-format -n *.c
+    - cd src/project/cat/ && bash lint.sh
 
 style-grep:
   stage: test
