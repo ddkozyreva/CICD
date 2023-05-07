@@ -22,26 +22,19 @@ style-cat:
   stage: test
   script: 
     - cd src/project/cat/ && clang-format -n *.c
-  workflow:
-      fail_fast: true
+  allow_failure: false
 
 style-grep:
   stage: test
   script: 
     - cd src/project/grep/ && clang-format -n *.c
-  workflow:
-      fail_fast: true
 
 test-cat:
   stage: test
   script: 
     - cd src/project/cat/ && make test
-  workflow:
-      fail_fast: true
 
 test-grep:
   stage: test
   script: 
     - cd src/project/grep/ && make test
-  workflow:
-      fail_fast: true
