@@ -6,7 +6,7 @@ build-cat:
     name: "cat_build"
     paths: 
       - src/project/cat/s21_cat
-    expire_in: 30 days
+    expire_in: 30 days 
 
 build-grep:
   stage: build
@@ -17,6 +17,7 @@ build-grep:
     paths: 
       - src/project/cat/s21_grep
     expire_in: 30 days
+  when: on_success
 
 style-cat:
   stage: test
