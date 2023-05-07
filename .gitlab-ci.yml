@@ -2,11 +2,22 @@ build-job1:
   stage: build
   script:
     - cd src/project/cat/ && make build
+  artifacts:
+    name: "cat_build"
+    paths: 
+      - binaries/cat/
+    expire_in: 30 days
 
 build-job2:
   stage: build
   script:
     - cd src/project/grep/ && make build
+  artifacts:
+    name: "grep_build"
+    paths: 
+      - binaries/grep/
+    expire_in: 30 days
+
 
 test-job1:
   stage: test

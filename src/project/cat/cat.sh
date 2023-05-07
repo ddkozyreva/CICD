@@ -91,7 +91,7 @@ do
               (( COUNTER_SUCCESS++ ))
             else
               echo "$TEST1" >> log.txt
-              (( COUNTER_FAIL++ ))
+              (( $COUNTER_FAIL++ ))
           fi
           rm s21_cat*.txt cat*.txt
             fi
@@ -106,7 +106,7 @@ echo "FAIL: $COUNTER_FAIL"
 
 if [ $COUNTER_FAIL -ne 0 ]
 then
-exit 1
+  exit 1
 else
-exit 0
+  exit 0
 fi
