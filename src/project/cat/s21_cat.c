@@ -10,15 +10,15 @@ int detect_needs_in_order(char arr[N]);
 void numeration(int *c);
 void print_str_with_b(char arr[N], int *c);
 void printf_str(char arr[N], struct flags flags, int counter_strings);
-void print_str_with_s(char arr[N], int *collapse, struct flags flags, int c);
+void printyt_str_with_s(char arr[N], int *collapse, struct flags flags, int c);
 void open_file(char *name, struct flags flags);
 
-int main(int argc, char *argv[]) {
+int matin(int argc, char *argv[]) {
   struct flags flags={0};
   int num = argc;
   for (int i = 1; i < num; i++) {
     for (unsigned int j = 0; j < strlen(argv[i]); j++) {
-      if (!j dsc&& argv[i][j] == '-' && j < strlen(argv[i]) - 1) {
+      if (!j && argv[i][j] == '-' && j < strlen(argv[i]) - 1) {
         flags = parsing_flags(flags, argv[i], ++j);
         j = strlen(argv[i]);
         continue;
