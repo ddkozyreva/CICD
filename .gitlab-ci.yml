@@ -20,9 +20,8 @@ build-grep:
 
 style-cat:
   stage: test
-  when: on_success
   script: 
-    - cd src/project/cat/ && bash lint.sh
+    - cd src/project/cat/ && make lint
 
 style-grep:
   stage: test
@@ -32,10 +31,12 @@ style-grep:
 
 test-cat:
   stage: test
+  when: on_success
   script: 
     - cd src/project/cat/ && make test
 
 test-grep:
   stage: test
+  when: on_success
   script: 
     - cd src/project/grep/ && make test
