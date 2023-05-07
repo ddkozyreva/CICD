@@ -4,7 +4,6 @@ stages:
   - integration_test
   - deploy
 
-
 build:
   stage: build
   script:
@@ -16,48 +15,30 @@ build:
       - src/project/grep/s21_grep
     expire_in: 30 days
 
-# build-grep:
-#   stage: build
-#   script:
-#     - cd src/project/grep/ && make build
-#   artifacts:
-#     name: "grep_build"
-#     paths: 
-#       - src/project/cat/s21_grep
-#     expire_in: 30 days
-
-
-style:
+style-cat:
   stage: test_style
   needs: ["build"]
   script: 
-    - cd src/project/cat/ && clang-format -n -Werror *.c && 
-    - cd ../grep/ && clang-format -n -Werror *.c
-  # allow_failure: false
+    - cd src/project/cat/ && clang-format -n -Werror *.c
   when: on_success
 
-# style-grep:
-#   stage: test_style
-#   needs: ["build"]
-#   script: 
-#     - cd src/project/grep/ && clang-format -n -Werror *.c
-#   # allow_failure: false
-#   when: on_success
-
-
-test:
-  stage: integration_test
-  needs: ["build", "style"]
+style-grep:
+  stage: test_style
+  needs: ["build"]
   script: 
-    - cd src/project/cat/ && make test &&
-    - cd src/project/grep/ && make test
-  # allow_failure: false
+    - cd src/project/grep/ && clang-format -n -Werror *.c
   when: on_success
 
-# test-grep:
-#   stage: integration_test
-#   needs: ["build", "style-cat", "style-grep"]
-#   script: 
-#     - cd src/project/grep/ && make test
-#   # allow_failure: false
-#   when: on_success
+test-cat:
+  stage: integration_test
+  needs: ["build", "style-cat"]
+  script: 
+    - cd src/project/cat/ && make test
+  when: on_success
+
+test-grep:
+  stage: integration_test
+  needs: ["build", "style-grep"]
+  script: 
+    - cd src/project/grep/ && make test
+  when: on_success
