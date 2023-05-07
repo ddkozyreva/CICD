@@ -9,7 +9,7 @@ build:
   stage: build
   script:
     - cd src/project/cat/ && make build
-    - cd src/project/grep/ && make build
+    - cd ../grep/ && make build
   artifacts:
     # name: "cat_build"
     paths: 
