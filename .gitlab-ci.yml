@@ -1,4 +1,4 @@
-build-job1:
+build-cat:
   stage: build
   script:
     - cd src/project/cat/ && make build
@@ -8,7 +8,7 @@ build-job1:
       - binaries/cat/
     expire_in: 30 days
 
-build-job2:
+build-grep:
   stage: build
   script:
     - cd src/project/grep/ && make build
@@ -18,13 +18,22 @@ build-job2:
       - binaries/grep/
     expire_in: 30 days
 
+style-cat:
+  stage: test
+  script: 
+    - cd src/project/cat/ && clang-format -n *.c
 
-test-job1:
+style-grep:
+  stage: test
+  script: 
+    - cd src/project/grep/ && clang-format -n *.c
+
+test-cat:
   stage: test
   script: 
     - cd src/project/cat/ && make test
 
-test-job2:
+test-grep:
   stage: test
   script: 
     - cd src/project/grep/ && make test
