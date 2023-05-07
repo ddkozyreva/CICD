@@ -44,10 +44,32 @@ sudo gitlab-runner register
 
 ## Part 2. Сборка
 
-- В .gitlab-ci.yml пропишем цели для сборки:
+- В .gitlab-ci.yml пропишем стейджи и цели для сборки:
 
 ```yml
+stages:
+  - build
+  - test_style
+  - integration_test
+  - deploy
 
+build-cat:
+  stage: build
+  script:
+    - cd src/project/cat/ && make build
+  artifacts:
+    paths: 
+      - src/project/cat/s21_cat
+    expire_in: 30 days
+
+build-grep:
+  stage: build
+  script:
+    - cd src/project/grep/ && make build
+  artifacts:
+    paths:
+      - src/project/grep/s21_grep
+    expire_in: 30 days
 ```
 ## Part 3. Тест кодстайла
 
@@ -57,19 +79,43 @@ sudo gitlab-runner register
 sudo apt-get install clang-format
 ```
 
-- В .gitlab-ci.yml пропишем цели для теста на код-стайл:
+- В .gitlab-ci.yml пропишем цели для теста на код-стайл. Также важно указать зависимость от предыдущего этапаи запуск в случае, если предыдущая стадия была выполнена успешно.
 
 ```yml
+style-cat:
+  stage: test_style
+  needs: ["build-cat"]
+  script: 
+    - cd src/project/cat/ && clang-format -n -Werror *.c
+  when: on_success
 
+style-grep:
+  stage: test_style
+  needs: ["build-grep"]
+  script: 
+    - cd src/project/grep/ && clang-format -n -Werror *.c
+  when: on_success
 ```
 
 
 ## Part 4. Интеграционные тесты
 
-- В .gitlab-ci.yml пропишем цели для запуска тестов:
+- В .gitlab-ci.yml пропишем цели для запуска тестов. Также важно указать зависимость от предыдущего этапаи запуск в случае, если предыдущая стадия была выполнена успешно.
 
 ```yml
+test-cat:
+  stage: integration_test
+  needs: ["build-cat", "style-cat"]
+  script: 
+    - cd src/project/cat/ && make test
+  when: on_success
 
+test-grep:
+  stage: integration_test
+  needs: ["build-grep", "style-grep"]
+  script: 
+    - cd src/project/grep/ && make test
+  when: on_success
 ```
 
 - Сам тестовый скрипт возвращает 0 в случае успешного выполения всех тестов и 1 в случае ошибки.
