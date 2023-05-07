@@ -5,30 +5,32 @@ stages:
   - deploy
 
 
-build-cat:
+build:
   stage: build
   script:
     - cd src/project/cat/ && make build
-  artifacts:
-    name: "cat_build"
-    paths: 
-      - src/project/cat/s21_cat
-    expire_in: 30 days
-
-build-grep:
-  stage: build
-  script:
     - cd src/project/grep/ && make build
   artifacts:
-    name: "grep_build"
+    # name: "cat_build"
     paths: 
+      - src/project/cat/s21_cat
       - src/project/cat/s21_grep
     expire_in: 30 days
+
+# build-grep:
+#   stage: build
+#   script:
+#     - cd src/project/grep/ && make build
+#   artifacts:
+#     name: "grep_build"
+#     paths: 
+#       - src/project/cat/s21_grep
+#     expire_in: 30 days
 
 
 style-cat:
   stage: test_style
-  needs: ["build-cat"]
+  needs: ["build"]
   script: 
     - cd src/project/cat/ && clang-format -n -Werror *.c
   # allow_failure: false
@@ -36,7 +38,7 @@ style-cat:
 
 style-grep:
   stage: test_style
-  needs: ["build-grep"]
+  needs: ["build"]
   script: 
     - cd src/project/grep/ && clang-format -n -Werror *.c
   # allow_failure: false
@@ -45,7 +47,7 @@ style-grep:
 
 test-cat:
   stage: integration_test
-  needs: ["build-cat", "style-cat"]
+  needs: ["build", "style-cat", "style-grep"]
   script: 
     - cd src/project/cat/ && make test
   # allow_failure: false
@@ -53,7 +55,7 @@ test-cat:
 
 test-grep:
   stage: integration_test
-  needs: ["build-grep", "style-grep"]
+  needs: ["build", "style-cat", "style-grep"]
   script: 
     - cd src/project/grep/ && make test
   # allow_failure: false
