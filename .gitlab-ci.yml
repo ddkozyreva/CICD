@@ -21,13 +21,13 @@ build-grep:
 style-cat:
   stage: test
   script: 
-    - cd src/project/cat/ && make lint
+    - cd src/project/cat/ && clang-format -n -Werror *.c
   # allow_failure: false
 
 style-grep:
   stage: test
   script: 
-    - cd src/project/grep/ && clang-format -n *.c
+    - cd src/project/grep/ && clang-format -n -Werror *.c
   # allow_failure: false
   when: on_success
 

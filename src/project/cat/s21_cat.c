@@ -14,7 +14,7 @@ void print_str_with_s(char arr[N], int *collapse, struct flags flags, int c);
 void open_file(char *name, struct flags flags);
 
 int main(int argc, char *argv[]) {
-  struct flags flags = {0};
+  struct flags flags={0};
   int num = argc;
   for (int i = 1; i < num; i++) {
     for (unsigned int j = 0; j < strlen(argv[i]); j++) {
