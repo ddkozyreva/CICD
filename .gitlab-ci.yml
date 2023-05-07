@@ -22,21 +22,25 @@ style-cat:
   stage: test
   script: 
     - cd src/project/cat/ && make lint
+  allow_failure: false
 
 style-grep:
   stage: test
   when: on_success
   script: 
     - cd src/project/grep/ && clang-format -n *.c
+  allow_failure: false
 
 test-cat:
   stage: test
   when: on_success
   script: 
     - cd src/project/cat/ && make test
+  allow_failure: false
 
 test-grep:
   stage: test
   when: on_success
   script: 
     - cd src/project/grep/ && make test
+  allow_failure: false
