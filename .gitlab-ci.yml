@@ -2,6 +2,7 @@ build-cat:
   stage: build
   script:
     - cd src/project/cat/ && make build
+    - mkdir -p binaries/cat/ && cp s21_cat binaries/cat/
   artifacts:
     name: "cat_build"
     paths: 
