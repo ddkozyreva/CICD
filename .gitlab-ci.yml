@@ -23,6 +23,7 @@ style-cat:
   script: 
     - cd src/project/cat/ && clang-format -n -Werror *.c
   # allow_failure: false
+  when: on_success
 
 style-grep:
   stage: test
