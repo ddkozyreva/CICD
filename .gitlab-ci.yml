@@ -8,8 +8,8 @@ stages:
 build:
   stage: build
   script:
-    - cd src/project/cat/ && make build
-    - cd ../grep/ && make build
+    - cd src/project/cat/ && make build && cd ../grep/ && make build
+    - pwd
   artifacts:
     # name: "cat_build"
     paths: 
