@@ -22,10 +22,10 @@ style-cat:
   stage: test
   script: 
     - cd src/project/cat/ && clang-format -n *.c
-  allow_failure: false
 
 style-grep:
   stage: test
+  when: on_success
   script: 
     - cd src/project/grep/ && clang-format -n *.c
 
