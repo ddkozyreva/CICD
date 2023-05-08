@@ -49,3 +49,10 @@ test-grep:
   script: 
     - cd src/project/grep/ && make test
   when: on_success
+
+deploy:
+  stage: deploy
+  needs: ["build-cat", "build-grep", "style-cat", "style-grep", "test-cat", test-grep"]
+  script: 
+    - bash deploy.sh
+  when: on_success
