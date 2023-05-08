@@ -52,7 +52,7 @@ test-grep:
 
 deploy:
   stage: deploy
-  needs: ["build-cat", "build-grep", "style-cat", "style-grep", "test-cat"]
+  needs: ["build-cat", "build-grep", "style-cat", "style-grep", "test-cat", "test-grep"]
   script: 
-    - bash deploy.sh
+    - cd src && bash deploy.sh
   when: on_success
