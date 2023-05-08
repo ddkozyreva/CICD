@@ -9,6 +9,10 @@ set DEST_PATH "/home/loretath/"
 
 spawn scp $CAT_FILE_FOR_COPY $USER_ON_SERVER@$SERVER_IP:$DEST_PATH
 expect {
+    "*yes/no*" {
+    send -- "yes\r"
+    exp_continue
+    }
     "*password*" {
     send -- "$PASSWD\r"
     exp_continue
@@ -21,6 +25,10 @@ expect {
 
 spawn scp $GREP_FILE_FOR_COPY $USER_ON_SERVER@$SERVER_IP:$DEST_PATH
 expect {
+    "*yes/no*" {
+    send -- "yes\r"
+    exp_continue
+    }
     "*password*" {
     send -- "$PASSWD\r"
     exp_continue
