@@ -122,4 +122,93 @@ test-grep:
 
 ## Part 5. Этап деплоя
 
+> Для деплоя была поднята вторая виртуальная машина, играющая роль продакшена. На нее будут поставляться исполняемые файлы после того, как приложение собралось и прошло все проверки успешно.
+
+- Для автоподстановки паролей установим на машине с гитлаб-раннером из предыдущих пунктов утилиту expect.
+
+```bash
+sudo apt-get install -y expect
+```
+
+- Этап деплоя в .gitlab-ci.yml:
+
+```yml
+deploy:
+  stage: deploy
+  needs: ["build-cat", "build-grep", "style-cat", "style-grep", "test-cat", "test-grep"]
+  script: 
+    - cd src && bash deploy.sh
+  when: on_success
+```
+
+- Скрипт deploy.sh запускает transfer_files.exp, в котором происходит перенос файлов с одной машины на другую при помощи scp, а также перенос полученных машиной 2 файлов в папку /usr/local/bin/ при помощи ssh:
+
+```bash
+#!bin/bash
+expect transfer_files.exp
+```
+
+- transfer_files.sh:
+```bash
+#!bin/expect -f
+
+set PASSWD "123"
+set CAT_FILE_FOR_COPY "/home/gitlab-runner/builds/xef_mJQq/0/students/DO6_CICD.ID_356283/loretath_student.21_school.ru/DO6_CICD-1/src/project/cat/s21_cat"
+set GREP_FILE_FOR_COPY "/home/gitlab-runner/builds/xef_mJQq/0/students/DO6_CICD.ID_356283/loretath_student.21_school.ru/DO6_CICD-1/src/project/grep/s21_grep"
+set SCRIPT_TO_MOVE_FILES "/home/gitlab-runner/builds/xef_mJQq/0/students/DO6_CICD.ID_356283/loretath_student.21_school.ru/DO6_CICD-1/src/move_files.sh"
+set USER_ON_SERVER "loretath"
+set SERVER_IP "192.168.100.10"
+set DEST_PATH "/home/loretath/"
+
+# Перенос файлов с одной машины на другую
+spawn scp $CAT_FILE_FOR_COPY $USER_ON_SERVER@$SERVER_IP:$DEST_PATH
+expect {
+    "*yes/no*" {
+    send -- "yes\r"
+    exp_continue
+    }
+    "*password*" {
+    send -- "$PASSWD\r"
+    exp_continue
+    }
+}
+spawn scp $GREP_FILE_FOR_COPY $USER_ON_SERVER@$SERVER_IP:$DEST_PATH
+expect {
+    "*yes/no*" {
+    send -- "yes\r"
+    exp_continue
+    }
+    "*password*" {
+    send -- "$PASSWD\r"
+    exp_continue
+    }
+}
+
+# Перенос файлов на удаленной машине. Через ssh с первой и на первой машине запускается скрипт на второй.
+# В $SCRIPT_TO_MOVE_FILES команды, которые будут запущены на второй машине.
+spawn $env(SHELL)
+send -- "ssh loretath@192.168.100.10 'echo $PASSWD | sudo -Sv && bash -s' < $SCRIPT_TO_MOVE_FILES\n"
+expect {
+    "*yes/no*" {
+    send -- "yes\r"
+    exp_continue
+    }
+    "*password*" {
+    send -- "$PASSWD\r"
+    exp_continue
+    }
+}
+```
+- move_files.sh:
+```bash
+#!bin/bash
+
+SRC_PATH="/home/loretath"
+DEST_PATH="/usr/local/bin/"
+
+sudo mv $SRC_PATH/s21_cat $DEST_PATH
+sudo mv $SRC_PATH/s21_grep $DEST_PATH
+
+exit
+```
 ## Part 6. Дополнительно. Уведомления

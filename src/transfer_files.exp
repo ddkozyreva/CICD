@@ -3,10 +3,12 @@
 set PASSWD "123"
 set CAT_FILE_FOR_COPY "/home/gitlab-runner/builds/xef_mJQq/0/students/DO6_CICD.ID_356283/loretath_student.21_school.ru/DO6_CICD-1/src/project/cat/s21_cat"
 set GREP_FILE_FOR_COPY "/home/gitlab-runner/builds/xef_mJQq/0/students/DO6_CICD.ID_356283/loretath_student.21_school.ru/DO6_CICD-1/src/project/grep/s21_grep"
+set SCRIPT_TO_MOVE_FILES "/home/gitlab-runner/builds/xef_mJQq/0/students/DO6_CICD.ID_356283/loretath_student.21_school.ru/DO6_CICD-1/src/move_files.sh"
 set USER_ON_SERVER "loretath"
 set SERVER_IP "192.168.100.10"
 set DEST_PATH "/home/loretath/"
 
+# Перенос файлов с одной машины на другую
 spawn scp $CAT_FILE_FOR_COPY $USER_ON_SERVER@$SERVER_IP:$DEST_PATH
 expect {
     "*yes/no*" {
@@ -18,7 +20,6 @@ expect {
     exp_continue
     }
 }
-
 spawn scp $GREP_FILE_FOR_COPY $USER_ON_SERVER@$SERVER_IP:$DEST_PATH
 expect {
     "*yes/no*" {
@@ -31,8 +32,10 @@ expect {
     }
 }
 
+# Перенос файлов на удаленной машине. Через ssh с первой и на первой машине запускается скрипт на второй.
+# В $SCRIPT_TO_MOVE_FILES команды, которые будут запущены на второй машине.
 spawn $env(SHELL)
-send -- "ssh loretath@192.168.100.10 'echo 123 | sudo -Sv && bash -s' < /home/loretath/shared/src/move_files.sh\n"
+send -- "ssh loretath@192.168.100.10 'echo $PASSWD | sudo -Sv && bash -s' < $SCRIPT_TO_MOVE_FILES\n"
 expect {
     "*yes/no*" {
     send -- "yes\r"

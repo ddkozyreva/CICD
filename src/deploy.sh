@@ -1,4 +1,2 @@
 #!bin/bash
-
-# sudo apt-get install -y expect
 expect transfer_files.exp
