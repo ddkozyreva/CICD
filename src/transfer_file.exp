@@ -1,0 +1,11 @@
+#!bin/expect -f
+
+set PASSWD "123"
+spawn scp /home/gitlab-runner/builds/xef_mJQq/0/students/DO6_CICD.ID_356283/loretath_student.21_school.ru/DO6_CICD-1/src/project/cat/cat.sh loretath@192.168.100.10:/home/loretath/
+expect "*password*"
+send -- "$PASSWD\n"
+expect eof
+spawn scp /home/gitlab-runner/builds/xef_mJQq/0/students/DO6_CICD.ID_356283/loretath_student.21_school.ru/DO6_CICD-1/src/project/grep/grep.sh loretath@192.168.100.10:/home/loretath/
+expect "*password*"
+send -- "$PASSWD\n"
+expect eof
