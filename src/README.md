@@ -212,3 +212,25 @@ sudo mv $SRC_PATH/s21_grep $DEST_PATH
 exit
 ```
 ## Part 6. Дополнительно. Уведомления
+
+1. Пишем @BotFather'y в Телеграмме:
+
+![6](../misc/images/6.png)
+
+2. Открываем своего бота, стартуем его. Переходим на
+
+```bash
+https://api.telegram.org/bot<TOKEN>/getUpdates
+или
+curl https://api.telegram.org/bot<TOKEN>/getUpdates
+```
+
+- Из полученного текста вытаскиваем id чата (CHAT_ID).
+
+3. Теперь можно отправлять любое сообщение из BASH или из браузера:
+
+```bash
+https://api.telegram.org/bot<TOKEN>/sendMessage?chat_id=<CHAT_ID>&text=Hello%20World
+или
+curl -s -X POST https://api.telegram.org/bot<TOKEN>/sendMessage -d chat_id=<CHAT_ID> -d text="Hi"
+```
