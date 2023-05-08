@@ -49,7 +49,7 @@ struct flags parsing_flags(struct flags flags, char *word, unsigned int k) {
       continue;
     }
     if (word[j] == 's') {
-      flags.s=1;
+      flags.s = 1;
       continue;
     }
     if (word[j] == 't') {
