@@ -49,7 +49,7 @@ sudo gitlab-runner register
 ```yml
 stages:
   - build
-  - test_style
+  - style_test
   - integration_test
   - deploy
 
@@ -83,14 +83,14 @@ sudo apt-get install clang-format
 
 ```yml
 style-cat:
-  stage: test_style
+  stage: style_test
   needs: ["build-cat"]
   script: 
     - cd src/project/cat/ && clang-format -n -Werror *.c
   when: on_success
 
 style-grep:
-  stage: test_style
+  stage: style_test
   needs: ["build-grep"]
   script: 
     - cd src/project/grep/ && clang-format -n -Werror *.c

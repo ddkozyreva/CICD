@@ -1,6 +1,6 @@
 stages:
   - build
-  - test_style
+  - style_test
   - integration_test
   - deploy
 
@@ -27,7 +27,7 @@ build-grep:
     expire_in: 30 days
 
 style-cat:
-  stage: test_style
+  stage: style_test
   needs: ["build-cat"]
   when: on_success
   script: 
@@ -36,7 +36,7 @@ style-cat:
     - bash src/telegram.sh
 
 style-grep:
-  stage: test_style
+  stage: style_test
   needs: ["build-grep"]
   when: on_success
   script: 
