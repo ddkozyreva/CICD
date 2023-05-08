@@ -8,7 +8,8 @@ build-cat:
   stage: build
   script:
     - cd src/project/cat/ && make build
-    - bash ../../telegram.sh $?
+  after_script:
+    - bash src/telegram.sh $?
   artifacts:
     paths: 
       - src/project/cat/s21_cat
@@ -18,7 +19,8 @@ build-grep:
   stage: build
   script:
     - cd src/project/grep/ && make build
-    - bash ../../telegram.sh $?
+  after_script:
+    - bash src/telegram.sh $?
   artifacts:
     paths:
       - src/project/grep/s21_grep
@@ -27,35 +29,44 @@ build-grep:
 style-cat:
   stage: test_style
   needs: ["build-cat"]
-  script: 
-    - cd src/project/cat/ && clang-format -n -Werror *.c; bash ../../telegram.sh $?
   when: on_success
+  script: 
+    - cd src/project/cat/ && clang-format -n -Werror *.c
+  after_script:
+    - bash src/telegram.sh $?
 
 style-grep:
   stage: test_style
   needs: ["build-grep"]
-  script: 
-    - cd src/project/grep/ && clang-format -n -Werror *.c; bash ../../telegram.sh $?
   when: on_success
+  script: 
+    - cd src/project/grep/ && clang-format -n -Werror *.c
+  after_script:
+    - bash src/telegram.sh $?
 
 test-cat:
   stage: integration_test
   needs: ["build-cat", "style-cat"]
-  script: 
-    - cd src/project/cat/ && make test; bash ../../telegram.sh $?
   when: on_success
+  script: 
+    - cd src/project/cat/ && make test
+  after_script:
+    - bash src/telegram.sh $?
 
 test-grep:
   stage: integration_test
   needs: ["build-grep", "style-grep"]
-  script: 
-    - cd src/project/grep/ && make test; bash ../../telegram.sh $?
   when: on_success
+  script: 
+    - cd src/project/grep/ && make test
+  after_script:
+    - bash src/telegram.sh $?
 
 deploy:
   stage: deploy
   needs: ["build-cat", "build-grep", "style-cat", "style-grep", "test-cat", "test-grep"]
+  when: on_success
   script: 
     - cd src && bash deploy.sh
+  after_script:
     - bash telegram.sh $?
-  when: on_success
