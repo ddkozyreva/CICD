@@ -9,7 +9,7 @@ build-cat:
   script:
     - cd src/project/cat/ && make build
   after_script:
-    - bash src/telegram.sh $?
+    - bash src/telegram.sh
   artifacts:
     paths: 
       - src/project/cat/s21_cat
@@ -20,7 +20,7 @@ build-grep:
   script:
     - cd src/project/grep/ && make build
   after_script:
-    - bash src/telegram.sh $?
+    - bash src/telegram.sh
   artifacts:
     paths:
       - src/project/grep/s21_grep
@@ -33,7 +33,7 @@ style-cat:
   script: 
     - cd src/project/cat/ && clang-format -n -Werror *.c
   after_script:
-    - bash src/telegram.sh $?
+    - bash src/telegram.sh
 
 style-grep:
   stage: test_style
@@ -42,7 +42,7 @@ style-grep:
   script: 
     - cd src/project/grep/ && clang-format -n -Werror *.c
   after_script:
-    - bash src/telegram.sh $?
+    - bash src/telegram.sh
 
 test-cat:
   stage: integration_test
@@ -51,7 +51,7 @@ test-cat:
   script: 
     - cd src/project/cat/ && make test
   after_script:
-    - bash src/telegram.sh $?
+    - bash src/telegram.sh
 
 test-grep:
   stage: integration_test
@@ -60,7 +60,7 @@ test-grep:
   script: 
     - cd src/project/grep/ && make test
   after_script:
-    - bash src/telegram.sh $?
+    - bash src/telegram.sh
 
 deploy:
   stage: deploy
@@ -69,4 +69,4 @@ deploy:
   script: 
     - cd src && bash deploy.sh
   after_script:
-    - bash telegram.sh $?
+    - bash telegram.sh
