@@ -4,9 +4,6 @@ stages:
   - integration_test
   - deploy
 
-variables:
-  INTEGRATION_STATUS: "A global variable"
-
 build-cat:
   stage: build
   script:
