@@ -69,4 +69,4 @@ deploy:
   script: 
     - cd src && bash deploy.sh
   after_script:
-    - bash telegram.sh
+    - bash src/telegram.sh
