@@ -17,10 +17,6 @@ expect {
     send -- "$PASSWD\r"
     exp_continue
     }
-    "*yes/no*" {
-    send -- "yes\r"
-    interact
-    }
 }
 
 spawn scp $GREP_FILE_FOR_COPY $USER_ON_SERVER@$SERVER_IP:$DEST_PATH
@@ -32,9 +28,5 @@ expect {
     "*password*" {
     send -- "$PASSWD\r"
     exp_continue
-    }
-    "*yes/no*" {
-    send -- "yes\r"
-    interact
     }
 }
